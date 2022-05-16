@@ -35,7 +35,7 @@ export default function GameBoard() {
         const runner = game[runnerIndex]
         const sets = data.set
         const score = winner && winner.sets.reduce((final, set, idx) => final = final + `${set}-${runner.sets[idx]}${idx !== sets-1 ? ', ' : ''}`, '')
-        const res = winner && winner.player + " Wins "+ ` ( ${score} ) `
+        const res = winner && winner.player + ` Wins `+ ` ( ${score} ) `
         setResult(res)
     }, [endGame])
 
