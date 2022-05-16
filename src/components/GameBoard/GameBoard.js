@@ -101,6 +101,8 @@ export default function GameBoard() {
                         <ScoreCard game={game} clickHandler={onClickHandler} endGame={endGame.status || false} />
                     </tbody>
                 </table>
+
+                <button className="btn btn--primary btn--right">Create Game</button>
             </div>
         </div>
     )

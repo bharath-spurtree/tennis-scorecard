@@ -16,7 +16,7 @@ export default function ScoreCard({ game, clickHandler, endGame }) {
                         })}
                         <td>{row.currentSet}</td>
                         <td>
-                            <button className="btn btn--secondary" onClick={() => clickHandler(index)} disabled={endGame}>
+                            <button className="btn btn--secondary btn--right" onClick={() => clickHandler(index)} disabled={endGame}>
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                     xmlnsXlink="http://www.w3.org/1999/xlink" className="icon">
                                     <use xlinkHref={`${Icon}#icon-plus`} />

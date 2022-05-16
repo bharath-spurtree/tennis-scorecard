@@ -28,9 +28,17 @@ html {
     border: none;
     font-size: 1rem;
     border-radius: 100px;
+    font-family: inherit;
 }
 
 .btn--primary {
     background-color: var(--color-primary);
     color: var(--color-background);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2rem;
+}
+
+.btn--right {
+    float: right;
 }
