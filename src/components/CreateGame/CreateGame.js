@@ -16,28 +16,30 @@ export default function CreateGame(props) {
 
     return (
         <form className="form" onSubmit={onFormSubmit}>
-            <div className="form__main">
-                <div>
-                    <label htmlFor="name">Game Name</label>
-                    <input type="text" value={name} id="name" onChange={(e) => setName(e.target.value)} />
+            <div className="container form__main">
+                <div className="form__inner">
+                    <div className="form__group">
+                        <label htmlFor="name">Game Name:</label>
+                        <input type="text" value={name} id="name" onChange={(e) => setName(e.target.value)} />
+                    </div>
+                    <div className="form__group">
+                        <label>Number of Sets:</label>
+                        <select name="" value={set} onChange={(e) => setSet(e.target.value)}>
+                            <option value="3">3</option>
+                            <option value="5">5</option>
+                            <option value="7">7</option>
+                        </select>
+                    </div>
+                    <div className="form__group">
+                        <label htmlFor="player1">Player 1:</label>
+                        <input type="text" id="player1" value={player1} onChange={(e) => setPlayer1(e.target.value)} />
+                    </div>
+                    <div className="form__group">
+                        <label>Player 2:</label>
+                        <input type="text" id="player2" value={player2} onChange={(e) => setPlayer2(e.target.value)} />
+                    </div>
+                    <button type="submit" className="btn btn--primary">Create Game</button>
                 </div>
-                <div>
-                    <label>Number of Sets</label>
-                    <select name="" value={set} onChange={(e) => setSet(e.target.value)}>
-                        <option value="3">3</option>
-                        <option value="5">5</option>
-                        <option value="7">7</option>
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="player1">Player 1</label>
-                    <input type="text" id="player1" value={player1} onChange={(e) => setPlayer1(e.target.value)} />
-                </div>
-                <div>
-                    <label>Player 2</label>
-                    <input type="text" id="player2" value={player2} onChange={(e) => setPlayer2(e.target.value)} />
-                </div>
-                <button type="submit">Create Game</button>
             </div>
         </form>
     )
