@@ -11,6 +11,8 @@ html {
 :root {
     --color-background: #EAEAEA;
     --color-dark-gray: #252A34;
+    --color-light-gray: #DBE2EF;
+    --color-light-gray-2: #AFB9C8;
     --color-secondary: #08D9D6;
     --color-primary: #FF2E63;
 }
