@@ -10,7 +10,8 @@ export default function GameBoard() {
     const [game, setGame] = useState([])
     const [headerSet, setHeaderSet] = useState([])
     const [activeSet, setActiveSet] = useState(0)
-    const [endGame, setEndGame] = useState({ status: false })
+    const [endGame, setEndGame] = useState({ })
+    const [result, setResult] = useState('')
 
     useEffect(() => {
         let setArray = []
@@ -28,11 +29,13 @@ export default function GameBoard() {
     }, [])
 
     useEffect(() => {
-        const runnerIndex = endGame.winnerIndex === 0 ? 1 : 0
-        const winner = game[endGame.winnerIndex]
-        const runnner = game[runnerIndex]
-
+        const runnerIndex = endGame.winner === 0 ? 1 : 0
+        const winner = game[endGame.winner]
+        const runner = game[runnerIndex]
         const sets = data.set
+        const score = winner && winner.sets.reduce((final, set, idx) => final = final + `${set}-${runner.sets[idx]}${idx !== sets-1 ? ', ' : ''}`, '')
+        const res = winner && winner.player + " Wins "+ ` ( ${score} ) `
+        setResult(res)
     }, [endGame])
 
     const onClickHandler = async (scoredPlayerIndex) => {
@@ -41,7 +44,7 @@ export default function GameBoard() {
         const otherPlayer = game[otherPlayerIndex]
 
         const { scoredPlayerCurrSet, otherPlayerCurrSet, incrementSet } = await calcCurrentSet(scoredPlayer.currentSet, otherPlayer.currentSet)
-        const scoredPlayerSet = incrementSet && await calcIncrementSet(scoredPlayer.sets, scoredPlayerIndex)
+        const { scoredPlayerSet, finishGame } = incrementSet && await calcIncrementSet(scoredPlayer.sets)
 
         let scoredPlayerElement = game[scoredPlayerIndex]
         scoredPlayerElement.currentSet = scoredPlayerCurrSet
@@ -50,27 +53,27 @@ export default function GameBoard() {
         otherPlayerElement.currentSet = otherPlayerCurrSet
 
         setGame(scoredPlayerIndex === 0 ? [scoredPlayerElement, otherPlayerElement] : [otherPlayerElement, scoredPlayerElement])
+        finishGame && setEndGame({ status: true, winner: scoredPlayerIndex })
     }
 
-    const calcIncrementSet = (scoredPlayerSet, winnerIndex) => {
+    const calcIncrementSet = (scoredPlayerSet) => {
         let winningScore = 6 * (data.set + 1) / 2
         let set = scoredPlayerSet[activeSet] + 1;
+        let finishGame = false
         scoredPlayerSet = [...scoredPlayerSet.slice(0, activeSet), set, ...scoredPlayerSet.slice(activeSet + 1)]
         if (set > 5) {
-            console.log(winningScore)
             const currentScore = scoredPlayerSet.reduce((total, s) => total + s, 0)
-            console.log(currentScore)
             if (currentScore >= winningScore)
-                setEndGame({ status: true, winner: winnerIndex })
+                finishGame = true
         }
         if (set > 5 && data.set === activeSet + 1) {
-            setEndGame({ status: true, winner: winnerIndex })
+            finishGame = true
         }
         else if (set > 5) {
             setActiveSet(prevSet => prevSet + 1)
         }
 
-        return scoredPlayerSet
+        return { scoredPlayerSet, finishGame }
     }
 
     return (
@@ -78,6 +81,8 @@ export default function GameBoard() {
             <div className="container">
 
                 <h1 className="board__header">{data.name}</h1>
+
+                <h2>Game Result: {result}</h2>
 
                 <table className="board__table">
                     <thead className="board__head">
@@ -93,7 +98,7 @@ export default function GameBoard() {
                         </tr>
                     </thead>
                     <tbody className="board__body">
-                        <ScoreCard game={game} clickHandler={onClickHandler} endGame={endGame.status} />
+                        <ScoreCard game={game} clickHandler={onClickHandler} endGame={endGame.status || false} />
                     </tbody>
                 </table>
             </div>
