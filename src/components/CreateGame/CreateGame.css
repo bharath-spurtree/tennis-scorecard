@@ -1,0 +1,13 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F9F9F9;
+    min-height: 100vh;
+    justify-content: center;
+}
+
+.form__main {
+    padding: 3rem;
+    border: 1px solid #716F81;
+}
