@@ -3,3 +3,14 @@
     margin: 0;
     box-sizing: border-box;
 }
+
+html {
+    font-family: 'Comic Neue', cursive;
+}
+
+:root {
+    --color-background: #EAEAEA;
+    --color-dark-gray: #252A34;
+    --color-secondary: #08D9D6;
+    --color-primary: #FF2E63;
+}

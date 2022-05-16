@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./GameBoard.css"
 import { useLocation } from "react-router-dom"
 import ScoreCard from "../ScoreCard/ScoreCard";
 import { calcCurrentSet } from "../../utils/gameBoard"
@@ -39,7 +40,7 @@ export default function GameBoard() {
         const scoredPlayer = game[scoredPlayerIndex]
         const otherPlayer = game[otherPlayerIndex]
 
-        const {scoredPlayerCurrSet, otherPlayerCurrSet, incrementSet} = await calcCurrentSet(scoredPlayer.currentSet, otherPlayer.currentSet)
+        const { scoredPlayerCurrSet, otherPlayerCurrSet, incrementSet } = await calcCurrentSet(scoredPlayer.currentSet, otherPlayer.currentSet)
         const scoredPlayerSet = incrementSet && await calcIncrementSet(scoredPlayer.sets, scoredPlayerIndex)
 
         let scoredPlayerElement = game[scoredPlayerIndex]
@@ -52,20 +53,20 @@ export default function GameBoard() {
     }
 
     const calcIncrementSet = (scoredPlayerSet, winnerIndex) => {
-        let winningScore = 6 * (data.set + 1) / 2 
+        let winningScore = 6 * (data.set + 1) / 2
         let set = scoredPlayerSet[activeSet] + 1;
-        scoredPlayerSet = [...scoredPlayerSet.slice(0, activeSet), set, ...scoredPlayerSet.slice(activeSet + 1)] 
-        if(set > 5) {
+        scoredPlayerSet = [...scoredPlayerSet.slice(0, activeSet), set, ...scoredPlayerSet.slice(activeSet + 1)]
+        if (set > 5) {
             console.log(winningScore)
             const currentScore = scoredPlayerSet.reduce((total, s) => total + s, 0)
             console.log(currentScore)
-            if(currentScore >= winningScore) 
-                setEndGame({status: true, winner: winnerIndex})
+            if (currentScore >= winningScore)
+                setEndGame({ status: true, winner: winnerIndex })
         }
-        if(set > 5 && data.set === activeSet + 1) {
+        if (set > 5 && data.set === activeSet + 1) {
             setEndGame({ status: true, winner: winnerIndex })
-        } 
-        else if(set > 5) {
+        }
+        else if (set > 5) {
             setActiveSet(prevSet => prevSet + 1)
         }
 
@@ -73,22 +74,29 @@ export default function GameBoard() {
     }
 
     return (
-        <table>
-            <thead>
-                <tr>
-                    <th>Player Name</th>
-                    {headerSet.map((set, idx) => {
-                        return (
-                            <th key={idx}>{set}</th>
-                        )
-                    })}
-                    <th>Current Set</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <ScoreCard game={game} clickHandler={onClickHandler} endGame={endGame.status} />
-            </tbody>
-        </table>
+        <div className="board">
+            <div className="container">
+
+                <h1 className="board__header">{data.name}</h1>
+
+                <table className="board__table">
+                    <thead className="board__head">
+                        <tr>
+                            <th>Player Name</th>
+                            {headerSet.map((set, idx) => {
+                                return (
+                                    <th key={idx}>{set}</th>
+                                )
+                            })}
+                            <th>Current Set</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody className="board__body">
+                        <ScoreCard game={game} clickHandler={onClickHandler} endGame={endGame.status} />
+                    </tbody>
+                </table>
+            </div>
+        </div>
     )
 }
