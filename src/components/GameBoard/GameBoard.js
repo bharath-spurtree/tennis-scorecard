@@ -77,9 +77,9 @@ export default function GameBoard() {
             <thead>
                 <tr>
                     <th>Player Name</th>
-                    {headerSet.map((set) => {
+                    {headerSet.map((set, idx) => {
                         return (
-                            <th>{set}</th>
+                            <th key={idx}>{set}</th>
                         )
                     })}
                     <th>Current Set</th>

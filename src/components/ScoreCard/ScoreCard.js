@@ -7,9 +7,9 @@ export default function ScoreCard({ game, clickHandler, endGame }) {
                 return (
                     <tr key={index}>
                         <td>{row.player}</td>
-                        {row.sets.map(set => {
+                        {row.sets.map((set, idx) => {
                             return (
-                                <td>{set}</td>
+                                <td key={idx}>{set}</td>
                             )
                         })}
                         <td>{row.currentSet}</td>
