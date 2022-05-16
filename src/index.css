@@ -16,3 +16,29 @@ html {
     --color-secondary: #08D9D6;
     --color-primary: #FF2E63;
 }
+
+.container {
+    width: 1200px;
+    margin: 0 2rem;
+    overflow-x: auto;
+}
+
+.btn {
+    padding: .75rem 1.5rem;
+    border: none;
+    font-size: 1rem;
+    border-radius: 100px;
+    font-family: inherit;
+}
+
+.btn--primary {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2rem;
+}
+
+.btn--right {
+    float: right;
+}

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./GameBoard.css"
-import { useLocation } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import ScoreCard from "../ScoreCard/ScoreCard";
-import { calcCurrentSet } from "../../utils/gameBoard"
+import { calcCurrentSet, calcIncrementSet } from "../../utils/gameBoard"
 
 export default function GameBoard() {
+    const navigate = useNavigate()
     const location = useLocation()
     const [data, setData] = useState({})
     const [game, setGame] = useState([])
@@ -26,7 +27,7 @@ export default function GameBoard() {
         setGame(gameSet)
         setData(location.state)
         setHeaderSet(set)
-    }, [])
+    }, [location.state])
 
     useEffect(() => {
         const runnerIndex = endGame.winner === 0 ? 1 : 0
@@ -44,7 +45,8 @@ export default function GameBoard() {
         const otherPlayer = game[otherPlayerIndex]
 
         const { scoredPlayerCurrSet, otherPlayerCurrSet, incrementSet } = await calcCurrentSet(scoredPlayer.currentSet, otherPlayer.currentSet)
-        const { scoredPlayerSet, finishGame } = incrementSet && await calcIncrementSet(scoredPlayer.sets)
+        const { scoredPlayerSet, finishGame, setActive } = incrementSet && await calcIncrementSet(scoredPlayer.sets, data, activeSet)
+        setActive && setActiveSet(prevSet => prevSet + 1)
 
         let scoredPlayerElement = game[scoredPlayerIndex]
         scoredPlayerElement.currentSet = scoredPlayerCurrSet
@@ -54,26 +56,6 @@ export default function GameBoard() {
 
         setGame(scoredPlayerIndex === 0 ? [scoredPlayerElement, otherPlayerElement] : [otherPlayerElement, scoredPlayerElement])
         finishGame && setEndGame({ status: true, winner: scoredPlayerIndex })
-    }
-
-    const calcIncrementSet = (scoredPlayerSet) => {
-        let winningScore = 6 * (data.set + 1) / 2
-        let set = scoredPlayerSet[activeSet] + 1;
-        let finishGame = false
-        scoredPlayerSet = [...scoredPlayerSet.slice(0, activeSet), set, ...scoredPlayerSet.slice(activeSet + 1)]
-        if (set > 5) {
-            const currentScore = scoredPlayerSet.reduce((total, s) => total + s, 0)
-            if (currentScore >= winningScore)
-                finishGame = true
-        }
-        if (set > 5 && data.set === activeSet + 1) {
-            finishGame = true
-        }
-        else if (set > 5) {
-            setActiveSet(prevSet => prevSet + 1)
-        }
-
-        return { scoredPlayerSet, finishGame }
     }
 
     return (
@@ -101,6 +83,8 @@ export default function GameBoard() {
                         <ScoreCard game={game} clickHandler={onClickHandler} endGame={endGame.status || false} />
                     </tbody>
                 </table>
+
+                <button className="btn btn--primary btn--right" onClick={() => navigate("/")}>Create Game</button>
             </div>
         </div>
     )

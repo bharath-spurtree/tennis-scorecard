@@ -26,3 +26,23 @@ export const calcCurrentSet = async (scoredPlayerCurrSet, otherPlayerCurrSet, in
     }
     return { scoredPlayerCurrSet, otherPlayerCurrSet, incrementSet }
 }
+
+export const calcIncrementSet = (scoredPlayerSet, data, activeSet) => {
+    let winningScore = 6 * (data.set + 1) / 2
+    let set = scoredPlayerSet[activeSet] + 1;
+    let finishGame = false, setActive = false
+    scoredPlayerSet = [...scoredPlayerSet.slice(0, activeSet), set, ...scoredPlayerSet.slice(activeSet + 1)]
+    if (set > 5) {
+        const currentScore = scoredPlayerSet.reduce((total, s) => total + s, 0)
+        if (currentScore >= winningScore)
+            finishGame = true
+    }
+    if (set > 5 && data.set === activeSet + 1) {
+        finishGame = true
+    }
+    else if (set > 5) {
+        setActive = true
+    }
+
+    return { scoredPlayerSet, finishGame, setActive }
+}
