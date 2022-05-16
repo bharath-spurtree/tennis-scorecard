@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./GameBoard.css"
-import { useLocation } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import ScoreCard from "../ScoreCard/ScoreCard";
 import { calcCurrentSet, calcIncrementSet } from "../../utils/gameBoard"
 
 export default function GameBoard() {
+    const navigate = useNavigate()
     const location = useLocation()
     const [data, setData] = useState({})
     const [game, setGame] = useState([])
@@ -26,7 +27,7 @@ export default function GameBoard() {
         setGame(gameSet)
         setData(location.state)
         setHeaderSet(set)
-    }, [])
+    }, [location.state])
 
     useEffect(() => {
         const runnerIndex = endGame.winner === 0 ? 1 : 0
@@ -83,7 +84,7 @@ export default function GameBoard() {
                     </tbody>
                 </table>
 
-                <button className="btn btn--primary btn--right">Create Game</button>
+                <button className="btn btn--primary btn--right" onClick={() => navigate("/")}>Create Game</button>
             </div>
         </div>
     )
