@@ -13,6 +13,7 @@ export default function GameBoard() {
     const [activeSet, setActiveSet] = useState(0)
     const [endGame, setEndGame] = useState({ })
     const [result, setResult] = useState('')
+    const [winningScore, setWinnigScore] = useState(99)
 
     useEffect(() => {
         let setArray = []
@@ -24,9 +25,11 @@ export default function GameBoard() {
         let gameSet = location.state.players.map((player) => {
             return { player, sets: setArray, currentSet: 0 }
         })
+        let score = ((parseInt(location.state.set) + 1) / 2) * 6
         setGame(gameSet)
         setData(location.state)
         setHeaderSet(set)
+        setWinnigScore(score)
     }, [location.state])
 
     useEffect(() => {
@@ -45,7 +48,7 @@ export default function GameBoard() {
         const otherPlayer = game[otherPlayerIndex]
 
         const { scoredPlayerCurrSet, otherPlayerCurrSet, incrementSet } = await calcCurrentSet(scoredPlayer.currentSet, otherPlayer.currentSet)
-        const { scoredPlayerSet, finishGame, setActive } = incrementSet && await calcIncrementSet(scoredPlayer.sets, data, activeSet)
+        const { scoredPlayerSet, finishGame, setActive } = incrementSet && await calcIncrementSet(scoredPlayer.sets, data, activeSet, winningScore)
         setActive && setActiveSet(prevSet => prevSet + 1)
 
         let scoredPlayerElement = game[scoredPlayerIndex]
@@ -57,6 +60,8 @@ export default function GameBoard() {
         setGame(scoredPlayerIndex === 0 ? [scoredPlayerElement, otherPlayerElement] : [otherPlayerElement, scoredPlayerElement])
         finishGame && setEndGame({ status: true, winner: scoredPlayerIndex })
     }
+
+    console.log(data)
 
     return (
         <div className="board">
