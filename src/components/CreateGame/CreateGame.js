@@ -30,6 +30,7 @@ export default function CreateGame(props) {
     return (
         <form className="form" onSubmit={onFormSubmit}>
             <div className="container form__main">
+                <h1>CREATE TENNIS GAME</h1>
                 <div className="form__inner">
                     <div className="form__group">
                         <label htmlFor="name">Game Name:</label>
