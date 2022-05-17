@@ -61,8 +61,6 @@ export default function GameBoard() {
         finishGame && setEndGame({ status: true, winner: scoredPlayerIndex })
     }
 
-    console.log(data)
-
     return (
         <div className="board">
             <div className="container">
