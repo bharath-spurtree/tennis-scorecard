@@ -32,9 +32,7 @@ export const calcIncrementSet = (scoredPlayerSet, data, activeSet, winningScore)
     let finishGame = false, setActive = false
     scoredPlayerSet = [...scoredPlayerSet.slice(0, activeSet), set, ...scoredPlayerSet.slice(activeSet + 1)]
     if (set > 5) {
-        console.log(winningScore)
         const currentScore = scoredPlayerSet.reduce((total, s) => total + s, 0)
-        console.log(currentScore)
         if (currentScore >= winningScore)
             finishGame = true
     }
