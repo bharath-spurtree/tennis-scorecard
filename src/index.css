@@ -29,14 +29,37 @@ html {
     font-size: 1rem;
     border-radius: 100px;
     font-family: inherit;
+    cursor: pointer;
 }
 
 .btn--primary {
-    background-color: var(--color-primary);
+    border: 1px solid var(--color-primary);
     color: var(--color-background);
+    background-color: var(--color-primary);
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-top: 2rem;
+    transition: all .3s;
+}
+
+.btn--primary:hover {
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    background-color: var(--color-background);
+}
+
+.btn--secondary {
+    background-color: var(--color-secondary);
+    border: 1px solid var(--color-secondary);
+    transition: all .3s;
+}
+
+.btn--secondary:hover {
+    background-color: var(--color-background);
+}
+
+.btn--secondary:hover > .icon {
+    fill: var(--color-secondary);
 }
 
 .btn--right {
