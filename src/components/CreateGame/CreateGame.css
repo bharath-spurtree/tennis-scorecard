@@ -69,4 +69,17 @@ h1 {
     font-size: 2.25rem;
     letter-spacing: 2px;
     color: var(--color-primary);
+    position: relative;
+    padding-bottom: .75rem;
+}
+
+h1::before {
+    content: "";
+    border-bottom: 2px solid var(--color-secondary);
+    width: 100px;
+    height: 1px;
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
