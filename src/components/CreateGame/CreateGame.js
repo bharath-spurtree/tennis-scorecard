@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import './CreateGame.css';
 import { useNavigate } from "react-router-dom"
 
-export default function CreateGame(props) {
+export default function CreateGame() {
     const navigate = useNavigate()
     const [name, setName] = useState('')
     const [set, setSet] = useState(3)
