@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux"
 import "./GameBoard.css"
 import { useNavigate, useLocation } from "react-router-dom"
 import ScoreCard from "../ScoreCard/ScoreCard";
 import { calcCurrentSet, calcIncrementSet } from "../../utils/gameBoard"
+import { addGame, changeWinnigScore, changeData, changeHeader, changeActiveSet, setEndGame, setResult } from "../../actions"
 
 export default function GameBoard() {
     const navigate = useNavigate()
     const location = useLocation()
-    const [data, setData] = useState({})
-    const [game, setGame] = useState([])
-    const [headerSet, setHeaderSet] = useState([])
-    const [activeSet, setActiveSet] = useState(0)
-    const [endGame, setEndGame] = useState({ })
-    const [result, setResult] = useState('')
-    const [winningScore, setWinnigScore] = useState(99)
+    const dispatch = useDispatch()
+    const board = useSelector(state => state.board)
+    const { game, winningScore, data, headerSet, activeSet, endGame, result } = board;
 
     useEffect(() => {
         let setArray = []
@@ -26,10 +24,10 @@ export default function GameBoard() {
             return { player, sets: setArray, currentSet: 0 }
         })
         let score = ((parseInt(location.state.set) + 1) / 2) * 6
-        setGame(gameSet)
-        setData(location.state)
-        setHeaderSet(set)
-        setWinnigScore(score)
+        dispatch(addGame(gameSet))
+        dispatch(changeData(location.state))
+        dispatch(changeHeader(set))
+        dispatch(changeWinnigScore(score))
     }, [location.state])
 
     useEffect(() => {
@@ -37,9 +35,9 @@ export default function GameBoard() {
         const winner = game[endGame.winner]
         const runner = game[runnerIndex]
         const sets = data.set
-        const score = winner && winner.sets.reduce((final, set, idx) => final = final + `${set}-${runner.sets[idx]}${idx !== sets-1 ? ', ' : ''}`, '')
-        const res = winner && winner.player + ` Wins `+ ` ( ${score} ) `
-        setResult(res)
+        const score = winner && winner.sets.reduce((final, set, idx) => final = final + `${set}-${runner.sets[idx]}${idx !== sets - 1 ? ', ' : ''}`, '')
+        const res = winner && winner.player + ` Wins ` + ` ( ${score} ) `
+        dispatch(setResult(res))
     }, [endGame])
 
     const onClickHandler = async (scoredPlayerIndex) => {
@@ -49,7 +47,7 @@ export default function GameBoard() {
 
         const { scoredPlayerCurrSet, otherPlayerCurrSet, incrementSet } = await calcCurrentSet(scoredPlayer.currentSet, otherPlayer.currentSet)
         const { scoredPlayerSet, finishGame, setActive } = incrementSet && await calcIncrementSet(scoredPlayer.sets, data, activeSet, winningScore)
-        setActive && setActiveSet(prevSet => prevSet + 1)
+        setActive && dispatch(changeActiveSet(activeSet+1))
 
         let scoredPlayerElement = game[scoredPlayerIndex]
         scoredPlayerElement.currentSet = scoredPlayerCurrSet
@@ -57,8 +55,8 @@ export default function GameBoard() {
         let otherPlayerElement = game[otherPlayerIndex]
         otherPlayerElement.currentSet = otherPlayerCurrSet
 
-        setGame(scoredPlayerIndex === 0 ? [scoredPlayerElement, otherPlayerElement] : [otherPlayerElement, scoredPlayerElement])
-        finishGame && setEndGame({ status: true, winner: scoredPlayerIndex })
+        dispatch(addGame(scoredPlayerIndex === 0 ? [scoredPlayerElement, otherPlayerElement] : [otherPlayerElement, scoredPlayerElement]))
+        finishGame && dispatch(setEndGame({ status: true, winner: scoredPlayerIndex }))
     }
 
     return (
