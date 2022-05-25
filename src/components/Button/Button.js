@@ -1,8 +1,11 @@
 import React from "react"
 import './Button.css';
 
-export const SimpleButton = ({onClickHandler, classNames, children, isDisabled=false}) => (
-    <button onClick={onClickHandler} className={classNames} disabled={isDisabled}>
+const SimpleButtonComponent = ({onClickHandler, styleClass, children, isDisabled=false}) => (
+    <button onClick={onClickHandler} className={styleClass} disabled={isDisabled}>
         {children}
     </button>
 )
+
+export const SimpleButton = React.memo(SimpleButtonComponent)
+
