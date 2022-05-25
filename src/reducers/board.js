@@ -6,7 +6,7 @@ const initialState = {
     headerSet: [],
     activeSet: 0,
     endGame: {},
-    result: '',
+    result: null,
     winningScore: 99
 }
 

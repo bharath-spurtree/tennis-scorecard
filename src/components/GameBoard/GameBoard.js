@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import "./GameBoard.css"
 import { useNavigate, useLocation } from "react-router-dom"
@@ -30,7 +30,7 @@ export default function GameBoard() {
         dispatch(changeData(location.state))
         dispatch(changeHeader(set))
         dispatch(changeWinnigScore(score))
-    }, [location.state])
+    }, [location.state, dispatch])
 
     useEffect(() => {
         const runnerIndex = endGame.winner === 0 ? 1 : 0
@@ -38,9 +38,9 @@ export default function GameBoard() {
         const runner = game[runnerIndex]
         const sets = data.set
         const score = winner && winner.sets.reduce((final, set, idx) => final = final + `${set}-${runner.sets[idx]}${idx !== sets - 1 ? ', ' : ''}`, '')
-        const res = winner && winner.player + ` Wins ` + ` ( ${score} ) `
+        const res = winner && winner.player + ` Wins  ( ${score} ) `
         dispatch(setResult(res))
-    }, [endGame])
+    }, [endGame, data.set, game, dispatch])
 
     const onClickHandler = async (scoredPlayerIndex) => {
         const otherPlayerIndex = scoredPlayerIndex === 0 ? 1 : 0
@@ -65,7 +65,7 @@ export default function GameBoard() {
         <div className="board">
             <div className="container">
                 <h1 className="board__header">{data.name}</h1>
-                <h2>Game Result: {result}</h2>
+                {result && <h2>Game Result: {result}</h2>}
 
                 <table className="board__table">
                     <TableHeader styleClass="board__head" headerSet={headerSet} />
