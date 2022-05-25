@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import "./GameBoard.css"
 import { useNavigate, useLocation } from "react-router-dom"
 import ScoreCard from "../ScoreCard/ScoreCard";
+import { SimpleButton } from "../Button/Button"
 import { calcCurrentSet, calcIncrementSet } from "../../utils/gameBoard"
 import { addGame, changeWinnigScore, changeData, changeHeader, changeActiveSet, setEndGame, setResult } from "../../actions"
 
@@ -85,7 +86,9 @@ export default function GameBoard() {
                     </tbody>
                 </table>
 
-                <button className="btn btn--primary btn--right" onClick={() => navigate("/")}>Create Game</button>
+                <SimpleButton onClickHandler={() => navigate("/")} classNames="btn btn--primary btn--right">
+                    Create Game
+                </SimpleButton>
             </div>
         </div>
     )
