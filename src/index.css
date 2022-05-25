@@ -24,38 +24,3 @@ html {
     margin: 0 2rem;
     overflow-x: auto;
 }
-
-.btn {
-    padding: .75rem 1.5rem;
-    border: none;
-    font-size: 1rem;
-    border-radius: 100px;
-    font-family: inherit;
-    cursor: pointer;
-}
-
-.btn--primary {
-    color: var(--color-background);
-    background: var(--color-primary);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 2rem;
-    transition: all .3s;
-}
-
-.btn--primary:hover {
-    background: var(--color-primary-dark);
-}
-
-.btn--secondary {
-    background-color: var(--color-secondary);
-    transition: all .3s;
-}
-
-.btn--secondary:hover {
-    background-color: var(--color-secondary-dark);
-}
-
-.btn--right {
-    float: right;
-}

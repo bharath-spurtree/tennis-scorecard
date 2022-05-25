@@ -1,0 +1,39 @@
+.btn,
+.btn:active {
+    padding: .75rem 1.5rem;
+    border: none;
+    font-size: 1rem;
+    border-radius: 100px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.btn--primary,
+.btn--primary:active {
+    color: var(--color-background);
+    background: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2rem;
+    transition: all .3s;
+}
+
+.btn--primary:hover,
+.btn--primary:focus {
+    background: var(--color-primary-dark);
+}
+
+.btn--secondary,
+.btn--secondary:active {
+    background-color: var(--color-secondary);
+    transition: all .3s;
+}
+
+.btn--secondary:hover,
+.btn--secondary:focus {
+    transform: translate(-3px, -3px);
+}
+
+.btn--right {
+    float: right;
+}
