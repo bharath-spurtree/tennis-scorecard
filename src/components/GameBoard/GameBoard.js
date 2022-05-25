@@ -4,6 +4,7 @@ import "./GameBoard.css"
 import { useNavigate, useLocation } from "react-router-dom"
 import ScoreCard from "../ScoreCard/ScoreCard";
 import { SimpleButton } from "../Button/Button"
+import { TableHeader } from "../Header/Header"
 import { calcCurrentSet, calcIncrementSet } from "../../utils/gameBoard"
 import { addGame, changeWinnigScore, changeData, changeHeader, changeActiveSet, setEndGame, setResult } from "../../actions"
 
@@ -63,30 +64,17 @@ export default function GameBoard() {
     return (
         <div className="board">
             <div className="container">
-
                 <h1 className="board__header">{data.name}</h1>
-
                 <h2>Game Result: {result}</h2>
 
                 <table className="board__table">
-                    <thead className="board__head">
-                        <tr>
-                            <th>Player Name</th>
-                            {headerSet.map((set, idx) => {
-                                return (
-                                    <th key={idx}>{set}</th>
-                                )
-                            })}
-                            <th>Current Set</th>
-                            <th></th>
-                        </tr>
-                    </thead>
+                    <TableHeader styleClass="board__head" headerSet={headerSet} />
                     <tbody className="board__body">
                         <ScoreCard game={game} clickHandler={onClickHandler} endGame={endGame.status || false} />
                     </tbody>
                 </table>
 
-                <SimpleButton onClickHandler={() => navigate("/")} classNames="btn btn--primary btn--right">
+                <SimpleButton onClickHandler={() => navigate("/")} styleClass="btn btn--primary btn--right">
                     Create Game
                 </SimpleButton>
             </div>
