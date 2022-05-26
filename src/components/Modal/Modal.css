@@ -9,6 +9,7 @@
     background-color: var(--color-secondary);
     border-radius: 5px;
     color: var(--color-background);
+    box-shadow: 2px 2px 4px 4px var(--color-light-gray-2);
     text-align: center;
     animation: fromtop 1s;
 }
