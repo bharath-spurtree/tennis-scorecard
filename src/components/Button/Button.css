@@ -14,7 +14,6 @@
     background: var(--color-primary);
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-top: 2rem;
     transition: all .3s;
 }
 
