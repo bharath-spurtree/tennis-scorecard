@@ -1,0 +1,23 @@
+.alert {
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    width: 25%;
+    transform: translateX(-50%);
+    min-width: 300px;
+    padding: 1.5rem;
+    background-color: var(--color-secondary);
+    border-radius: 5px;
+    color: var(--color-background);
+    text-align: center;
+    animation: fromtop 1s;
+}
+
+@keyframes fromtop {
+    0% {
+        transform: translate(-50%, -100px);
+    }
+    100% {
+        transform: translateY(-50%, 0%);
+    }
+}
