@@ -24,3 +24,7 @@ html {
     margin: 0 2rem;
     overflow-x: auto;
 }
+
+.ml-sm {
+    margin-left: 1rem
+}

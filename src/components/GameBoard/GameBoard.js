@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import "./GameBoard.css"
 import { useNavigate, useLocation } from "react-router-dom"
 import ScoreCard from "../ScoreCard/ScoreCard";
 import { SimpleButton } from "../Button/Button"
 import { TableHeader } from "../Header/Header"
+import { SimpleModal } from "../Modal/Modal"
 import { calcCurrentSet, calcIncrementSet } from "../../utils/gameBoard"
 import { addGame, changeWinnigScore, changeData, changeHeader, changeActiveSet, setEndGame, setResult } from "../../actions"
 
@@ -14,6 +15,7 @@ export default function GameBoard() {
     const dispatch = useDispatch()
     const board = useSelector(state => state.board)
     const { game, winningScore, data, headerSet, activeSet, endGame, result } = board;
+    const [open, setOpen] = useState(false)
 
     useEffect(() => {
         let setArray = []
@@ -30,17 +32,24 @@ export default function GameBoard() {
         dispatch(changeData(location.state))
         dispatch(changeHeader(set))
         dispatch(changeWinnigScore(score))
-    }, [location.state])
+    }, [location.state, dispatch])
 
     useEffect(() => {
+        endGame.status && setOpen(true)
         const runnerIndex = endGame.winner === 0 ? 1 : 0
         const winner = game[endGame.winner]
         const runner = game[runnerIndex]
         const sets = data.set
         const score = winner && winner.sets.reduce((final, set, idx) => final = final + `${set}-${runner.sets[idx]}${idx !== sets - 1 ? ', ' : ''}`, '')
-        const res = winner && winner.player + ` Wins ` + ` ( ${score} ) `
+        const res = winner && winner.player + ` Wins  ( ${score} ) `
         dispatch(setResult(res))
-    }, [endGame])
+    }, [endGame, data.set, game, dispatch])
+
+    useEffect(() => {
+        open && setTimeout(() => {
+            setOpen(false)
+        }, 5000)
+    }, [open])
 
     const onClickHandler = async (scoredPlayerIndex) => {
         const otherPlayerIndex = scoredPlayerIndex === 0 ? 1 : 0
@@ -65,7 +74,7 @@ export default function GameBoard() {
         <div className="board">
             <div className="container">
                 <h1 className="board__header">{data.name}</h1>
-                <h2>Game Result: {result}</h2>
+                {result && <h2>Game Result: {result}</h2>}
 
                 <table className="board__table">
                     <TableHeader styleClass="board__head" headerSet={headerSet} />
@@ -77,6 +86,8 @@ export default function GameBoard() {
                 <SimpleButton onClickHandler={() => navigate("/")} styleClass="btn btn--primary btn--right">
                     Create Game
                 </SimpleButton>
+
+                <SimpleModal isOpen={open} closeModal={() => setOpen(false)} />
             </div>
         </div>
     )
