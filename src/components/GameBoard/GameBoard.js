@@ -73,8 +73,8 @@ export default function GameBoard() {
     return (
         <div className="board">
             <div className="container">
-                <h1 className="board__header">{data.name}</h1>
-                {result && <h2>Game Result: {result}</h2>}
+                <h1 className="board__header mb-lg">{data.name}</h1>
+                {result && <h2 className="mtb-md">Game Result: {result}</h2>}
 
                 <table className="board__table">
                     <TableHeader styleClass="board__head" headerSet={headerSet} />
@@ -83,7 +83,7 @@ export default function GameBoard() {
                     </tbody>
                 </table>
 
-                <SimpleButton onClickHandler={() => navigate("/")} styleClass="btn btn--primary btn--right">
+                <SimpleButton onClickHandler={() => navigate("/")} styleClass="btn btn--primary btn--right mt-md">
                     Create Game
                 </SimpleButton>
 

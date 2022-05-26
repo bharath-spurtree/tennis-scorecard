@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './CreateGame.css';
 import { useNavigate } from "react-router-dom"
+import { SimpleButton } from "../Button/Button"
 
 export default function CreateGame() {
     const navigate = useNavigate()
@@ -55,7 +56,7 @@ export default function CreateGame() {
                         <input type="text" id="player2" value={player2} onChange={(e) => { setValPlayer2(''); setPlayer2(e.target.value)}} />
                         {valPlayer2 !== '' && <div className="form__message">{valPlayer2}</div>}
                     </div>
-                    <button type="submit" className="btn btn--primary">Create Game</button>
+                    <button type="submit" className="btn btn--primary mt-md">Create Game</button>
                 </div>
             </div>
         </form>
