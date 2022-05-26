@@ -1,5 +1,6 @@
 import React from "react";
 import "./ScoreCard.css";
+import PropTypes from "prop-types"
 import Icon from "../../assets/icons.svg"
 import { SimpleButton } from "../Button/Button"
 
@@ -28,5 +29,16 @@ const ScoreCard = ({ game, clickHandler, endGame }) => (
         })}
     </>
 )
+
+ScoreCard.propTypes = {
+    game: PropTypes.array,
+    clickHandler: PropTypes.func,
+    endGame: PropTypes.object
+}
+
+ScoreCard.defaultProps = {
+    game: [],
+    endGame: {}
+}
 
 export default ScoreCard
