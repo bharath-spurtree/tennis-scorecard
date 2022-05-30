@@ -6,51 +6,25 @@ import ScoreCard from "../ScoreCard/ScoreCard";
 import { SimpleButton } from "../Button/Button"
 import { TableHeader } from "../Header/Header"
 import { SimpleModal } from "../Modal/Modal"
-import { calcCurrentSet, calcIncrementSet } from "../../utils/gameBoard"
-import { addGame, changeActiveSet, setEndGame, setResult } from "../../actions"
+import { setResult } from "../../actions"
 
 export default function GameBoard() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const board = useSelector(state => state.board)
-    const { game, winningScore, data, headerSet, activeSet, endGame, result } = board;
+    const { data, headerSet, endGame, result } = board;
     const [open, setOpen] = useState(false)
 
     useEffect(() => {
         endGame.status && setOpen(true)
-        const runnerIndex = endGame.winner === 0 ? 1 : 0
-        const winner = game[endGame.winner]
-        const runner = game[runnerIndex]
-        const sets = data.set
-        const score = winner && winner.sets.reduce((final, set, idx) => final = final + `${set}-${runner.sets[idx]}${idx !== sets - 1 ? ', ' : ''}`, '')
-        const res = winner && winner.player + ` Wins  ( ${score} ) `
-        dispatch(setResult(res))
-    }, [endGame, data.set, game, dispatch])
+        dispatch(setResult())
+    }, [endGame])
 
     useEffect(() => {
         open && setTimeout(() => {
             setOpen(false)
-        }, 5000)
+        }, 4000)
     }, [open])
-
-    const onClickHandler = async (scoredPlayerIndex) => {
-        const otherPlayerIndex = scoredPlayerIndex === 0 ? 1 : 0
-        const scoredPlayer = game[scoredPlayerIndex]
-        const otherPlayer = game[otherPlayerIndex]
-
-        const { scoredPlayerCurrSet, otherPlayerCurrSet, incrementSet } = await calcCurrentSet(scoredPlayer.currentSet, otherPlayer.currentSet)
-        const { scoredPlayerSet, finishGame, setActive } = incrementSet && await calcIncrementSet(scoredPlayer.sets, data, activeSet, winningScore)
-        setActive && dispatch(changeActiveSet(activeSet+1))
-
-        let scoredPlayerElement = game[scoredPlayerIndex]
-        scoredPlayerElement.currentSet = scoredPlayerCurrSet
-        scoredPlayerElement.sets = incrementSet ? scoredPlayerSet : scoredPlayerElement.sets
-        let otherPlayerElement = game[otherPlayerIndex]
-        otherPlayerElement.currentSet = otherPlayerCurrSet
-
-        dispatch(addGame(scoredPlayerIndex === 0 ? [scoredPlayerElement, otherPlayerElement] : [otherPlayerElement, scoredPlayerElement]))
-        finishGame && dispatch(setEndGame({ status: true, winner: scoredPlayerIndex }))
-    }
 
     return (
         <div className="board">
@@ -61,7 +35,7 @@ export default function GameBoard() {
                 <table className="board__table">
                     <TableHeader styleClass="board__head" headerSet={headerSet} />
                     <tbody className="board__body">
-                        <ScoreCard game={game} clickHandler={onClickHandler} endGame={endGame.status || false} />
+                        <ScoreCard />
                     </tbody>
                 </table>
 

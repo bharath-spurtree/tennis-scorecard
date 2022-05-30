@@ -1,6 +1,7 @@
 import actions from "../constants/actions"
+import { addPoint, setResultMethod } from "../utils/gameBoard"
 
-export const changeData = (data) => { 
+export const changeData = (data) => {
     return (dispatch) => {
         let setArray = []
         let set = []
@@ -19,32 +20,22 @@ export const changeData = (data) => {
     }
 }
 
-export const addGame = (game) => ({
-    type: actions.ADD_GAME,
-    payload: game
-})
+export const addPointAction = (scoredPlayerIndex) => async (dispatch, getState) => {
+    const state = getState()
+    const { game, data, activeSet, winningScore } = state.board
+    const response = await addPoint(scoredPlayerIndex, game, data, activeSet, winningScore)
+    dispatch({
+        type: actions.ADD_POINT,
+        payload: response
+    })
+}
 
-export const changeWinnigScore = (score) => ({
-    type: actions.SET_SCORE,
-    payload: score
-})
-
-export const changeHeader = (header) => ({
-    type: actions.SET_HEADER,
-    payload: header
-})
-
-export const changeActiveSet = (set) => ({
-    type: actions.SET_ACTIVE_SET,
-    payload: set
-})
-
-export const setEndGame = (end) => ({
-    type: actions.SET_END_GAME,
-    payload: end
-})
-
-export const setResult = (result) => ({
-    type: actions.SET_RESULT,
-    payload: result
-})
+export const setResult = () => (dispatch, getState) => {
+    const state = getState()
+    const { game, endGame, data } = state.board
+    const result = setResultMethod(game, endGame, data)
+    dispatch({
+        type: actions.SET_RESULT,
+        payload: result
+    })
+}

@@ -5,20 +5,18 @@ const initialState = {
     game: [],
     headerSet: [],
     activeSet: 0,
-    endGame: {},
+    endGame: { status: false },
     result: null,
     winningScore: 99
 }
 
 const board = (state=initialState, action) => {
     switch(action.type) {
-        case actions.ADD_GAME: return {
+        case actions.ADD_POINT: return {
             ...state,
-            game: action.payload
-        }
-        case actions.SET_SCORE: return {
-            ...state,
-            winningScore: action.payload
+            game: action.payload.game,
+            activeSet: action.payload.activeSet,
+            endGame: action.payload.endGame
         }
         case actions.SET_DATA: return {
             ...state,
@@ -26,18 +24,6 @@ const board = (state=initialState, action) => {
             headerSet: action.payload.headerSet,
             game: action.payload.game,
             winningScore: action.payload.winningScore
-        }
-        case actions.SET_HEADER: return {
-            ...state,
-            headerSet: action.payload
-        }
-        case actions.SET_ACTIVE_SET: return {
-            ...state,
-            activeSet: action.payload
-        }
-        case actions.SET_END_GAME: return {
-            ...state,
-            endGame: action.payload
         }
         case actions.SET_RESULT: return {
             ...state,

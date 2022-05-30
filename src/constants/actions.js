@@ -1,5 +1,5 @@
 const actions = {
-    ADD_GAME: 'ADD_GAME',
+    ADD_POINT: 'ADD_POINT',
     SET_SCORE: 'SET_SCORE',
     SET_DATA: 'SET_DATA',
     SET_HEADER: 'SET_HEADER',
