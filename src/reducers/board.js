@@ -22,7 +22,10 @@ const board = (state=initialState, action) => {
         }
         case actions.SET_DATA: return {
             ...state,
-            data: action.payload
+            data: action.payload.data,
+            headerSet: action.payload.headerSet,
+            game: action.payload.game,
+            winningScore: action.payload.winningScore
         }
         case actions.SET_HEADER: return {
             ...state,

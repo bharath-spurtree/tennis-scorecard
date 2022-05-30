@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import './CreateGame.css';
 import { useNavigate } from "react-router-dom"
 import { SimpleButton } from "../Button/Button"
+import { changeData } from "../../actions/index"
+import { useDispatch } from "react-redux"
 
 export default function CreateGame() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [name, setName] = useState('')
     const [set, setSet] = useState(3)
     const [player1, setPlayer1] = useState('')
@@ -24,8 +27,10 @@ export default function CreateGame() {
         else if(player2 === '') {
             setValPlayer2('Please enter Player 2 name')
         }
-        else
-            navigate('/board', { state: { name, set, players: [player1, player2] } })
+        else{
+            dispatch(changeData({ name, set, players: [player1, player2] }))
+            navigate('/board')
+        }
     }
 
     return (

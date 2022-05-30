@@ -1,38 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import "./GameBoard.css"
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import ScoreCard from "../ScoreCard/ScoreCard";
 import { SimpleButton } from "../Button/Button"
 import { TableHeader } from "../Header/Header"
 import { SimpleModal } from "../Modal/Modal"
 import { calcCurrentSet, calcIncrementSet } from "../../utils/gameBoard"
-import { addGame, changeWinnigScore, changeData, changeHeader, changeActiveSet, setEndGame, setResult } from "../../actions"
+import { addGame, changeActiveSet, setEndGame, setResult } from "../../actions"
 
 export default function GameBoard() {
     const navigate = useNavigate()
-    const location = useLocation()
     const dispatch = useDispatch()
     const board = useSelector(state => state.board)
     const { game, winningScore, data, headerSet, activeSet, endGame, result } = board;
     const [open, setOpen] = useState(false)
-
-    useEffect(() => {
-        let setArray = []
-        let set = []
-        for (let i = 0; i < location.state.set; i++) {
-            setArray.push(0)
-            set.push(i + 1)
-        }
-        let gameSet = location.state.players.map((player) => {
-            return { player, sets: setArray, currentSet: 0 }
-        })
-        let score = ((parseInt(location.state.set) + 1) / 2) * 6
-        dispatch(addGame(gameSet))
-        dispatch(changeData(location.state))
-        dispatch(changeHeader(set))
-        dispatch(changeWinnigScore(score))
-    }, [location.state, dispatch])
 
     useEffect(() => {
         endGame.status && setOpen(true)
